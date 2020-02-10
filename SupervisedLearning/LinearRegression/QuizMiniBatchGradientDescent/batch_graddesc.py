@@ -38,6 +38,8 @@ def MSEStep(X, y, W, b, learn_rate = 0.005):
     W_new = W + learn_rate * np.matmul(error, X)
     
     b_new = b + learn_rate * error.sum()
+
+    print("y_hat: {}, error: {}, W_new: {}, b_new: {}".format(y_hat, error, W_new, b_new))
     
     return W_new, b_new
 
@@ -74,6 +76,7 @@ def miniBatchGD(X, y, batch_size = 20, learn_rate = 0.005, num_iter = 25):
         y_batch = y[batch]
         W, b = MSEStep(X_batch, y_batch, W, b, learn_rate)
         regression_coef.append(np.hstack((W,b)))
+        #print("batch: {}, X_batch: {}, y_batch: {}, W: {}, b: {}".format(batch, X_batch, y_batch, W, b))
     
     return regression_coef
 
@@ -87,7 +90,7 @@ if __name__ == "__main__":
     
     # plot the results
     import matplotlib.pyplot as plt
-    
+    """
     plt.figure()
     X_min = X.min()
     X_max = X.max()
@@ -98,3 +101,4 @@ if __name__ == "__main__":
         plt.plot([X_min, X_max],[X_min * W + b, X_max * W + b], color = color)
     plt.scatter(X, y, zorder = 3)
     plt.show()
+    """
