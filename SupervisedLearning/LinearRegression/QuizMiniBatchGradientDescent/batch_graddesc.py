@@ -6,7 +6,8 @@ np.random.seed(42)
 # TODO: Fill in code in the function below to implement a gradient descent
 # step for linear regression, following a squared error rule. See the docstring
 # for parameters and returned variables.
-def MSEStep(X, y, W, b, learn_rate = 0.005):
+def MSEStep(X, y, W, b, learn_rate=0.005):
+
     """
     This function implements the gradient descent step for squared error as a
     performance metric.
@@ -22,27 +23,31 @@ def MSEStep(X, y, W, b, learn_rate = 0.005):
     W_new : predictor feature coefficients following gradient descent step
     b_new : intercept following gradient descent step
 
-    y_hat[0] = 1.9698172278292 + (0.46899669037921 * y[0])
-    y_diff = y_hat[0] - y[0]
-    sqrd_error = y_diff ^ 2
-    np.mean(sqrd_error)
-    """
-
-    # compute errors
+    How we have learned previously:
+    y = (w1 + @*p_hat*x) + (w2 + @*p_hat)
+    1. Find the the linear regression using X, y = http://www.alcula.com/calculators/statistics/linear-regression/
+    2. y_hat = 1.9698172278292 + (0.46899669037921 * y)
+    3. y_diff = y_hat - y
+    4. sqrd_error = y_diff ^ 2
+    5. np.mean(sqrd_error)
+    """ 
+    
+    #y = b + mx
     y_hat = np.matmul(X, W) + b
+    
+    #y_diff = y_hat - y
+    y_diff = y - y_hat
+    
+    # w1 is calculated with the following formula (w1 + @*p'*x)
+    W_new = W + learn_rate * np.matmul(y_diff, X)
 
-    # y - y_hat
-    error = y - y_hat
-    
-    # compute steps
-    W_new = W + learn_rate * np.matmul(error, X)
-    
-    b_new = b + learn_rate * error.sum()
+    # w2 (w2 + @*p')
+    b_new = b + learn_rate * y_diff.sum()
 
-    print("y_hat: {}, error: {}, W_new: {}, b_new: {}".format(y_hat, error, W_new, b_new))
+    #print("X: {}, y: {}, W: {}, b: {}, y_hat: {}, error: {}, W_new: {}, b_new: {}".format(X, y, W, b, y_hat, error, W_new, b_new))
     
+    #Return a new w1 and w2
     return W_new, b_new
-
 
 # The parts of the script below will be run when you press the "Test Run"
 # button. The gradient descent step will be performed multiple times on
@@ -51,7 +56,6 @@ def MSEStep(X, y, W, b, learn_rate = 0.005):
 def miniBatchGD(X, y, batch_size = 20, learn_rate = 0.005, num_iter = 25):
     """
     This function performs mini-batch gradient descent on a given dataset.
-
     Parameters
     X : array of predictor features
     y : array of outcome values
@@ -77,7 +81,7 @@ def miniBatchGD(X, y, batch_size = 20, learn_rate = 0.005, num_iter = 25):
         W, b = MSEStep(X_batch, y_batch, W, b, learn_rate)
         regression_coef.append(np.hstack((W,b)))
         #print("batch: {}, X_batch: {}, y_batch: {}, W: {}, b: {}".format(batch, X_batch, y_batch, W, b))
-    
+    #print("regression_coef",regression_coef)
     return regression_coef
 
 
@@ -87,10 +91,10 @@ if __name__ == "__main__":
     X = data[:,:-1]
     y = data[:,-1]
     regression_coef = miniBatchGD(X, y)
-    
+    #print("regression_coef",regression_coef)
     # plot the results
     import matplotlib.pyplot as plt
-    """
+    #"""
     plt.figure()
     X_min = X.min()
     X_max = X.max()
@@ -101,4 +105,4 @@ if __name__ == "__main__":
         plt.plot([X_min, X_max],[X_min * W + b, X_max * W + b], color = color)
     plt.scatter(X, y, zorder = 3)
     plt.show()
-    """
+    #"""
