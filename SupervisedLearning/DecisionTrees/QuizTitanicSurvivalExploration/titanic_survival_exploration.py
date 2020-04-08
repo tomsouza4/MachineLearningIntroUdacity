@@ -17,7 +17,7 @@ import pandas as pd
 from IPython.display import display # Allows the use of display() for DataFrames
 
 # Pretty display for notebooks
-get_ipython().run_line_magic('matplotlib', 'inline')
+#get_ipython().run_line_magic('matplotlib', 'inline')
 
 # Set a random seed
 import random

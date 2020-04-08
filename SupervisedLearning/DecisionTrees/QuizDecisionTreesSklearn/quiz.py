@@ -66,6 +66,7 @@ y_pred = model.predict(X)
 
 # TODO: Calculate the accuracy and assign it to the variable acc.
 acc = accuracy_score(y,y_pred)
+print("Accuracy of this model: {}".format(acc))
 
 dot_data = StringIO()
 export_graphviz(model, out_file=dot_data,  
@@ -74,4 +75,3 @@ export_graphviz(model, out_file=dot_data,
                 feature_names = feature_cols, class_names=['0','1'])
 graph = pydotplus.graph_from_dot_data(dot_data.getvalue())  
 graph.write_png('DecisionTrees/QuizDecisionTreesSklearn/prediction_decision_tree.png')
-print("Accuracy of this model: {}".format(acc))
